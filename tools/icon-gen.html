@@ -1,0 +1,109 @@
+<meta charset="utf-8">
+<title>Dusk Highway icon</title>
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<canvas id="c" width="1024" height="1024"></canvas>
+<script>
+/* アプリアイコンを Canvas で描く。
+   撮影: Chrome ヘッドレスで --window-size=1024,1024 --screenshot
+   iOS は角丸を自動で付けるので、ここでは四角のまま描く。 */
+var c = document.getElementById("c"), g = c.getContext("2d");
+var W = 1024, H = 1024;
+
+// 空：上は深い藍、地平線に向かって夕焼け
+var sky = g.createLinearGradient(0, 0, 0, H * 0.62);
+sky.addColorStop(0.00, "#070A1C");
+sky.addColorStop(0.35, "#1E1A44");
+sky.addColorStop(0.62, "#5A2E4E");
+sky.addColorStop(0.82, "#B8483A");
+sky.addColorStop(1.00, "#F0A05A");
+g.fillStyle = sky; g.fillRect(0, 0, W, H);
+
+// 太陽の残光
+var glow = g.createRadialGradient(W * 0.5, H * 0.60, 10, W * 0.5, H * 0.60, W * 0.42);
+glow.addColorStop(0, "rgba(255,226,170,.95)");
+glow.addColorStop(0.28, "rgba(255,170,96,.42)");
+glow.addColorStop(1, "rgba(255,120,70,0)");
+g.fillStyle = glow; g.fillRect(0, 0, W, H * 0.62);
+
+// 太陽（地平線に半分沈む）
+g.fillStyle = "#FFD79A";
+g.beginPath(); g.arc(W * 0.5, H * 0.62, W * 0.13, Math.PI, 0); g.fill();
+
+// メサのシルエット
+g.fillStyle = "#2A1A30";
+function mesa(x, w, h) {
+  g.beginPath();
+  g.moveTo(x, H * 0.62); g.lineTo(x + w * 0.18, H * 0.62 - h);
+  g.lineTo(x + w * 0.82, H * 0.62 - h * 0.92); g.lineTo(x + w, H * 0.62);
+  g.closePath(); g.fill();
+}
+mesa(-40, 300, 70); mesa(720, 360, 92);
+
+// 地面
+var gnd = g.createLinearGradient(0, H * 0.62, 0, H);
+gnd.addColorStop(0, "#5C3C30"); gnd.addColorStop(1, "#3A2A24");
+g.fillStyle = gnd; g.fillRect(0, H * 0.62, W, H * 0.38);
+
+// 道路（消失点へ向かう台形）
+var vx = W * 0.5, vy = H * 0.62;
+g.fillStyle = "#2E2E38";
+g.beginPath();
+g.moveTo(vx - 34, vy); g.lineTo(vx + 34, vy); g.lineTo(W * 0.98, H); g.lineTo(W * 0.02, H);
+g.closePath(); g.fill();
+
+// 路肩の実線
+g.strokeStyle = "rgba(242,233,214,.85)"; g.lineWidth = 12; g.lineCap = "round";
+g.beginPath(); g.moveTo(vx - 30, vy + 8); g.lineTo(W * 0.075, H); g.stroke();
+g.beginPath(); g.moveTo(vx + 30, vy + 8); g.lineTo(W * 0.925, H); g.stroke();
+
+// 中央の破線（遠近で短く・細く）
+g.strokeStyle = "rgba(255,182,72,.95)";
+var segs = [[0.98, 1.00, 20], [0.86, 0.93, 16], [0.77, 0.82, 12], [0.70, 0.735, 9], [0.655, 0.677, 6]];
+segs.forEach(function (sg) {
+  g.lineWidth = sg[2];
+  g.beginPath(); g.moveTo(vx, H * sg[0]); g.lineTo(vx, H * sg[1]); g.stroke();
+});
+
+// 車（後ろ姿のシルエット、ハイライト付き）
+function car() {
+  var cx = W * 0.5, cy = H * 0.86, s = 1;
+  g.save(); g.translate(cx, cy);
+  // 影
+  var sh = g.createRadialGradient(0, 40, 10, 0, 40, 210);
+  sh.addColorStop(0, "rgba(0,0,0,.55)"); sh.addColorStop(1, "rgba(0,0,0,0)");
+  g.fillStyle = sh; g.beginPath(); g.ellipse(0, 40, 210, 60, 0, 0, Math.PI * 2); g.fill();
+  // ボディ
+  g.fillStyle = "#D8412F";
+  rr(-150, -70, 300, 120, 22);
+  // キャビン
+  g.fillStyle = "#B8321F";
+  rr(-108, -150, 216, 92, 24);
+  // リアガラス
+  g.fillStyle = "#1B2338";
+  rr(-92, -138, 184, 62, 14);
+  // テールライト
+  g.fillStyle = "#FFB648";
+  rr(-138, -40, 62, 24, 8); rr(76, -40, 62, 24, 8);
+  // バンパー
+  g.fillStyle = "#2A2A34";
+  rr(-158, 30, 316, 26, 10);
+  // タイヤ
+  g.fillStyle = "#141419";
+  rr(-172, -10, 40, 76, 10); rr(132, -10, 40, 76, 10);
+  g.restore();
+}
+function rr(x, y, w, h, r) {
+  g.beginPath();
+  g.moveTo(x + r, y); g.lineTo(x + w - r, y); g.quadraticCurveTo(x + w, y, x + w, y + r);
+  g.lineTo(x + w, y + h - r); g.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  g.lineTo(x + r, y + h); g.quadraticCurveTo(x, y + h, x, y + h - r);
+  g.lineTo(x, y + r); g.quadraticCurveTo(x, y, x + r, y);
+  g.closePath(); g.fill();
+}
+car();
+
+// 四隅をわずかに落として奥行きを出す
+var vig = g.createRadialGradient(W / 2, H * 0.55, W * 0.35, W / 2, H * 0.55, W * 0.85);
+vig.addColorStop(0, "rgba(0,0,0,0)"); vig.addColorStop(1, "rgba(0,0,0,.35)");
+g.fillStyle = vig; g.fillRect(0, 0, W, H);
+</script>
