@@ -9,7 +9,8 @@
 | 項目 | 内容 |
 |---|---|
 | 状態 | Web版 完成 |
-| 公開URL | https://claude.ai/code/artifact/4359209e-6e11-46da-9140-03e8ec24c97d |
+| Web公開 | https://kiyotake1229.github.io/dusk-highway/ （GitHub Pages） |
+| 開発確認用 | https://claude.ai/code/artifact/4359209e-6e11-46da-9140-03e8ec24c97d （Claude Artifact） |
 | 本体 | `index.html`（約1.9MB。3Dモデルを内包） |
 | 技術 | Three.js r128 |
 | 通信 | なし（完全オフライン） |
