@@ -1,10 +1,12 @@
 # Dusk Highway 社内説明資料（8枚）の生成。アプリ index.html の配色・書体をそのまま使う
 # Python 3.9 のため f-string を入れ子にしない（部品を先に変数へ）
-# 使い方: python3 gen.py  → Main.dc.html / S02〜S08.dc.html / canvas.json / deck.html（PDF用）
+# 使い方: python3 tools/slides/gen.py  → このフォルダに Main.dc.html / S02〜.dc.html / canvas.json / deck.html、docs/ に PDF
+#         そのあと docs/manager/generate_docs_json.sh を実行する
 #         画面写真は ../../screenshots/*.png を縮小した dusk-title.jpg / dusk-play.jpg（同じフォルダ）
 import json, os
 OUT = os.path.dirname(os.path.abspath(__file__))
-APP, DATE, N = 'Dusk Highway', '2026-09-14', 8
+PDF_NAME = '20260915_DOC_0001_ALL_社内説明資料（DuskHighway）.pdf'  # docs/ の命名規則（YYYYMMDD_種別_連番_場所_内容）
+APP, DATE, N = 'Dusk Highway', '2026-09-15', 8
 
 VOID, DUSK, INKB = '#0B1026', '#1B1B33', '#0A0A14'
 EMBER, AMBER, CREAM, SAND, DANGER = '#C4553A', '#FFB648', '#F0E6D2', '#8C7A5E', '#FF5A48'
@@ -209,3 +211,15 @@ pages = ''.join('<div style="width:1280px;height:720px;page-break-after:always;o
 deck = '<!doctype html><html><head><meta charset="utf-8"><title>%s 社内説明</title>%s<style>@page{size:1280px 720px;margin:0}html,body{margin:0}</style></head><body>%s</body></html>' % (APP, helmet, pages)
 open(os.path.join(OUT, 'deck.html'), 'w', encoding='utf-8').write(deck)
 print('written', len(files))
+
+# PDF（docs/ に書き出す。Chrome が無い環境ではスキップ）
+import subprocess
+CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+PDF = os.path.normpath(os.path.join(OUT, '..', '..', 'docs', PDF_NAME))
+if os.path.exists(CHROME):
+    subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--virtual-time-budget=8000',
+                    '--print-to-pdf=' + PDF, 'file://' + os.path.join(OUT, 'deck.html')],
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    print('pdf', PDF)
+else:
+    print('Chrome が見つからないため PDF は作っていません')
