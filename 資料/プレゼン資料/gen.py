@@ -1,11 +1,10 @@
 # Dusk Highway 社内説明資料（8枚）の生成。アプリ index.html の配色・書体をそのまま使う
 # Python 3.9 のため f-string を入れ子にしない（部品を先に変数へ）
-# 使い方: python3 tools/slides/gen.py  → このフォルダに Main.dc.html / S02〜.dc.html / canvas.json / deck.html、docs/ に PDF
-#         そのあと docs/manager/generate_docs_json.sh を実行する
+# 使い方: python3 資料/プレゼン資料/gen.py  → このフォルダに Main.dc.html / S02〜.dc.html / canvas.json / deck.html / PDF
 #         画面写真は ../../screenshots/*.png を縮小した dusk-title.jpg / dusk-play.jpg（同じフォルダ）
 import json, os
 OUT = os.path.dirname(os.path.abspath(__file__))
-PDF_NAME = '20260915_DOC_0001_ALL_社内説明資料（DuskHighway）.pdf'  # docs/ の命名規則（YYYYMMDD_種別_連番_場所_内容）
+PDF_NAME = 'DuskHighway_社内説明.pdf'
 APP, DATE, N = 'Dusk Highway', '2026-09-15', 8
 
 VOID, DUSK, INKB = '#0B1026', '#1B1B33', '#0A0A14'
@@ -212,10 +211,10 @@ deck = '<!doctype html><html><head><meta charset="utf-8"><title>%s 社内説明<
 open(os.path.join(OUT, 'deck.html'), 'w', encoding='utf-8').write(deck)
 print('written', len(files))
 
-# PDF（docs/ に書き出す。Chrome が無い環境ではスキップ）
+# PDF（このフォルダに書き出す。Chrome が無い環境ではスキップ）
 import subprocess
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-PDF = os.path.normpath(os.path.join(OUT, '..', '..', 'docs', PDF_NAME))
+PDF = os.path.join(OUT, PDF_NAME)
 if os.path.exists(CHROME):
     subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--virtual-time-budget=8000',
                     '--print-to-pdf=' + PDF, 'file://' + os.path.join(OUT, 'deck.html')],

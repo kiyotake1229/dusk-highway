@@ -1,37 +1,17 @@
 {
-  "next_no": 3,
-  "total": 3,
-  "generated_at": "2026-09-15T12:53:53.238392",
+  "next_no": 2,
+  "total": 1,
+  "generated_at": "2026-09-15T13:55:05.755286",
   "documents": [
     {
-      "no": 2,
-      "date": "2026-09-15",
-      "type": "DOC",
-      "category": "ALL",
-      "title": "プレゼンの進め方（DuskHighway）",
-      "filename": "20260915_DOC_0002_ALL_プレゼンの進め方（DuskHighway）.md",
-      "extension": "md",
-      "summary": "岩崎さんに説明するときの台本。**5分版**を基本に、時間がなければ「1分版」だけでも伝わるようにしてある。\nスライド（ https://claude.ai/code/artifact/913a5070-4d04-4c8f-916f-378fbe4a8695 ）を画面に出し、手元のスマホでデモする想定。"
-    },
-    {
       "no": 1,
       "date": "2026-09-15",
       "type": "DOC",
       "category": "ALL",
-      "title": "社内説明資料（DuskHighway）",
-      "filename": "20260915_DOC_0001_ALL_社内説明資料（DuskHighway）.md",
+      "title": "現状の仕様と構成",
+      "filename": "20260915_DOC_0001_ALL_現状の仕様と構成.md",
       "extension": "md",
-      "summary": "「Dusk Highway」（スマホ向け3Dエンドレスレース）を岩崎さんに説明するためのスライド（8枚）。ねらい（単一HTMLで3Dが成立するか）、画面、遊び方、続ける仕掛け、技術と素材、現状、iOS化の手順と費用をまとめている。"
-    },
-    {
-      "no": 1,
-      "date": "2026-09-15",
-      "type": "DOC",
-      "category": "ALL",
-      "title": "社内説明資料（DuskHighway）",
-      "filename": "20260915_DOC_0001_ALL_社内説明資料（DuskHighway）.pdf",
-      "extension": "pdf",
-      "summary": ""
+      "summary": "日没後の砂漠ハイウェイを走る、スマホ向けの3Dエンドレスレースゲーム（Three.js）。Web版は完成しており、GitHub Pages で公開中。iOSアプリ化は未着手。\nコミット 0650a8a 時点の内容。以後の変更は #0002 以降の文書に記録する。"
     }
   ]
 }

@@ -49,7 +49,7 @@ YYYYMMDD_種類_連番_場所_内容.拡張子
 | MDL | 3Dモデル（`models/` / `tools/embed-glb.mjs` / `MODELS.md`） |
 | PWA | PWA（`manifest.json` / `sw.js` / アイコン） |
 | IOS | iOSアプリ（`ios-app/`） |
-| TOL | ツール（`tools/`。スライド生成 `tools/slides/` を含む） |
+| TOL | ツール（`tools/`） |
 
 ---
 
